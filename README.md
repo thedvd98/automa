@@ -1,11 +1,11 @@
 
-# USAGE
+## USAGE
 ./automa fileconfigurazione_automa inputstring
 
-# COSA FA?
+### COSA FA?
 Il programma verifica se la inputstring appartiene al linguaggio descritto dall'automa.
 
-# FILE CONFIGURAZIONE
+### FILE CONFIGURAZIONE
 File di configurazione dell'automa
 	Ogni riga corrisponde ad una "freccia" che va dallo stato di partenza a quello di arrivo.
 	Lo stato iniziale è sempre lo zero.
