@@ -14,7 +14,7 @@ File di configurazione dell'automa
 	
 	Esempio:
 		0 a 1 0	
-		1 a 0 1
+		1 a 0 -1
 	Con queste due righe l'automa accetterà solo stringhe con un numero di a dispari.
 	la prima riga indica che dallo stato 0 si va allo stato 1 in caso si legga una 'a'. L'ultimo zero indica che non è uno stato finale.
-	la seconda riga indica che quando si è nello stato 1 si va allo stato 0 se si legge un 'a'. L'ultimo uno indica che è uno stato finale.
+	la seconda riga indica che quando si è nello stato 1 si va allo stato 0 se si legge un 'a'. L'ultimo -1 indica che è uno stato finale.

@@ -21,16 +21,31 @@ int loadfile(FILE *fda_desc, struct delta *fda) {
 		fda[i] = temp;
 		i++;
 	}
-	printf("File caricato con successo! Composto da %d righe\n", i);
 	return i;
 }
 
+/*
+ * ritorna il prossimo stato
+ */
 int search_delta(struct delta *fda, int max, char ch, int curr_state) {
+	int special = 0;
+	int tmp_to_state = 0;
+
 	for(int i = 0; i < max; i++) {
 		if (fda[i].from_state == curr_state && fda[i].letter == ch) {
+			printf("special %d\n", d_special(&fda[i]));
 			return fda[i].to_state;
 		}
+		if (fda[i].from_state == curr_state && d_special(&fda[i]) == STATE_S_EVERYTHING) {
+			/*
+			 * Madonna che schifo di codice
+			 */
+			special = STATE_S_EVERYTHING;
+			tmp_to_state = fda[i].to_state;
+		}
 	}
+	if(special != 0)
+		return tmp_to_state;
 	return -1;
 }
 
@@ -40,7 +55,7 @@ int is_final(struct delta *fda, int max, int stato) {
 			return d_final(&fda[i]);
 		}
 	}
-	return -1;
+	return 0;
 }
 
 
