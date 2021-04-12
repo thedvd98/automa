@@ -34,12 +34,15 @@ create_automa(char *regex)
 	int i=0;
 	while(*regex != '\0') {
 		if(*(regex+1) == '\0') {
-			set_delta(&current_d, curr_state, *regex, curr_state+1, STATE_FINAL);
+			d_set(&current_d, curr_state, *regex, curr_state+1, STATE_NOFINAL);
+			output(&current_d);
+			d_set(&current_d, curr_state+1, *regex, curr_state+2, STATE_FINAL);
+			output(&current_d);
 		}
 		else {
-			set_delta(&current_d, curr_state, *regex, curr_state+1, STATE_NOFINAL);
+			d_set(&current_d, curr_state, *regex, curr_state+1, STATE_NOFINAL);
+			output(&current_d);
 		}
-		output(&current_d);
 		curr_state += 1;
 		regex++;
 	}

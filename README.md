@@ -1,9 +1,12 @@
 
 ## USAGE
-./automa fileconfigurazione_automa inputstring
+./automa fileconfigurazione inputstring
+
+./regexp something | ./automa inputstring
 
 ### COSA FA?
-Il programma verifica se la inputstring appartiene al linguaggio descritto dall'automa.
+Automa: Il programma verifica se la inputstring appartiene al linguaggio descritto dall'automa.
+Regexp: Genera un file da dare in pasto ad automa a partire da una regula expression. Ma per adesso fa quasi niente.
 
 ### FILE CONFIGURAZIONE
 File di configurazione dell'automa

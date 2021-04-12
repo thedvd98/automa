@@ -37,7 +37,7 @@ d_special(struct delta *d)
 	
 
 void
-set_delta(struct delta *d, int from_state, char letter, int to_state, int finale)
+d_set(struct delta *d, int from_state, char letter, int to_state, int finale)
 {
 	d->from_state = from_state;
 	d->letter = letter;

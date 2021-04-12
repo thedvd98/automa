@@ -33,7 +33,6 @@ int search_delta(struct delta *fda, int max, char ch, int curr_state) {
 
 	for(int i = 0; i < max; i++) {
 		if (fda[i].from_state == curr_state && fda[i].letter == ch) {
-			printf("special %d\n", d_special(&fda[i]));
 			return fda[i].to_state;
 		}
 		if (fda[i].from_state == curr_state && d_special(&fda[i]) == STATE_S_EVERYTHING) {
