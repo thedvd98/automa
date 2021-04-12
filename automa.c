@@ -1,29 +1,16 @@
 #include <stdio.h>
+#include "automa.h"
 /*
  * 'simula' un automa a stati finiti deterministico
  * */
 #define MAX_NUM_DELTA 1000
 
-struct delta {
-	char letter; // la lettera per passare a next_state
-	int from_state;
-	int to_state;
-	int finale; // 1 se lo stato è finale
-};
-
-int loadfile(char *filename, struct delta *fda) {
+int loadfile(FILE *fda_desc, struct delta *fda) {
 	int start_state, end_state, fin;
 	char ch;
 
 	int i;
 	struct delta temp;
-	FILE *fda_desc;
-	fda_desc = fopen(filename, "r");
-	if (fda_desc == NULL) {
-		printf("Non riesco ad aprire il file\n");
-		return 0;
-	}
-	
 	i = 0;
 	while (!feof(fda_desc)) {
 		fscanf(fda_desc, "%d %c %d %d\n", &start_state, &ch, &end_state, &fin);
@@ -35,7 +22,6 @@ int loadfile(char *filename, struct delta *fda) {
 		i++;
 	}
 	printf("File caricato con successo! Composto da %d righe\n", i);
-	fclose(fda_desc);
 	return i;
 }
 
@@ -51,7 +37,7 @@ int search_delta(struct delta *fda, int max, char ch, int curr_state) {
 int is_final(struct delta *fda, int max, int stato) {
 	for(int i = 0; i < max; i++) {
 		if (fda[i].from_state == stato) {
-			return fda[i].finale;
+			return d_final(&fda[i]);
 		}
 	}
 	return -1;
@@ -64,39 +50,59 @@ int run(struct delta *fda, int max,  char *str) {
 	while(str[i] != 0) {
 		current_state = search_delta(fda, max, str[i], current_state);
 		if(current_state == -1) {
-			printf("Probabilmente stai usando caratteri non presenti nell'alfabeto dell'automa\n");
+			printf("-NO\n");
 			return -1;
 		}
 		i++;
 	}
 	if (is_final(fda, max, current_state)) {
-		printf("La stringa appartiene al linguaggio definito dall'automa!\n");
+		printf("YES\n");
 		return 1;
 	} else {
-		printf("La stringa non appartiene al linguaggio!\n");
+		printf("NO\n");
 	}
 	return 0;
 }
 
 int main(int argc, char **argv) {
+	FILE *fda_desc;
 	char *input;
 	char *filename;
 	struct delta fda[MAX_NUM_DELTA]; // finite deterministic automa
 	int num_delta;
 	
-	if (argc < 3) {
+	if (argc < 2) {
 		printf("Mancano degli argomenti\n%s file stringa\n",argv[0]);
 		return 0;
 	}
-	
-	input = argv[2];
-	filename = argv[1];
-	printf("Input string: %s\nFile: %s\n", input, filename);
 
-	num_delta = loadfile(filename, fda);
+
+	if (argc == 3) {
+		input = argv[2];
+		filename = argv[1];
+		printf("Input string: %s\nFile: %s\n", input, filename);
+		fda_desc = fopen(filename, "r");
+	}
+	else if (argc == 2) {
+		input = argv[1];
+		printf("Input from stdin\n");
+		fda_desc = stdin;
+	}
+	
+	if (fda_desc == NULL) {
+		printf("Non riesco ad aprire il file\n");
+		return 0;
+	}
+
+	num_delta = loadfile(fda_desc, fda);
+	if(fda_desc != stdin)
+		fclose(fda_desc);
+
 	if (num_delta <= 0) {
+		printf("There is nothing useful in the file\n");
 		return 1;
 	}
+
 	run(fda, num_delta, input);
 	
 	return 0;

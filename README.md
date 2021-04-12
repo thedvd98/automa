@@ -10,6 +10,7 @@ File di configurazione dell'automa
 	Ogni riga corrisponde ad una "freccia" che va dallo stato di partenza a quello di arrivo.
 	Lo stato iniziale è sempre lo zero.
 	Tutti gli stati devono essere numer interi.
+	Anche l'ultima riga deve avere un a capo \n
 	
 	Esempio:
 		0 a 1 0	
