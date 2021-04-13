@@ -6,7 +6,7 @@
 
 ### COSA FA?
 Automa: Il programma verifica se la inputstring appartiene al linguaggio descritto dall'automa.
-Regexp: Genera un file da dare in pasto ad automa a partire da una regula expression. Ma per adesso fa quasi niente.
+Regexp: ...
 
 ### FILE CONFIGURAZIONE
 File di configurazione dell'automa
@@ -16,8 +16,10 @@ File di configurazione dell'automa
 	Anche l'ultima riga deve avere un a capo \n
 	
 	Esempio:
+		1 -1
 		0 a 1 0	
-		1 a 0 -1
-	Con queste due righe l'automa accetterà solo stringhe con un numero di a dispari.
-	la prima riga indica che dallo stato 0 si va allo stato 1 in caso si legga una 'a'. L'ultimo zero indica che non è uno stato finale.
-	la seconda riga indica che quando si è nello stato 1 si va allo stato 0 se si legge un 'a'. L'ultimo -1 indica che è uno stato finale.
+		1 a 0 0
+	Con queste tre righe l'automa accetterà solo stringhe con un numero di a dispari.
+	La prima riga è la lista di stati finali separati da spazio e che termina sempre in -1
+	la seconda riga indica che dallo stato 0 si va allo stato 1 in caso si legga una 'a'. L'ultimo zero è riservato per operazioni speciali
+	la terza riga indica che quando si è nello stato 1 si va allo stato 0 se si legge un 'a'. L'ultimo 0 è riservato
