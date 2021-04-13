@@ -1,3 +1,6 @@
+/*
+ * see man 7 regexp (plan9port man page)
+ */
 #include <stdio.h>
 
 #include "automa.h"
