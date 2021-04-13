@@ -3,25 +3,46 @@
 /*
  * 'simula' un automa a stati finiti deterministico
  * */
+
 #define MAX_NUM_DELTA 1000
+#define MAX_FINAL_STATES 10
+
+int final_states[MAX_FINAL_STATES];
+int num_final_states;
 
 int loadfile(FILE *fda_desc, struct delta *fda) {
-	int start_state, end_state, fin;
+	int start_state, end_state, fin, tmp;
 	char ch;
 
-	int i;
+	int line, a;
 	struct delta temp;
-	i = 0;
+	a = 0;
+
+	/*
+	 *	TODO check input
+	 *  la prima riga contiene la lista degli stati finali
+	 */
+	while(fscanf(fda_desc, "%d", &tmp) > 0 && tmp > -1){
+		final_states[a] = tmp;
+		a++;
+	}
+	if(a < 1)
+		return 0;
+	num_final_states = a;
+	fscanf(fda_desc, "\n");
+
+	line = 0;
 	while (!feof(fda_desc)) {
 		fscanf(fda_desc, "%d %c %d %d\n", &start_state, &ch, &end_state, &fin);
 		temp.letter = ch;
 		temp.from_state= start_state;
 		temp.to_state = end_state;
 		temp.finale = fin;
-		fda[i] = temp;
-		i++;
+		fda[line] = temp;
+		line++;
 	}
-	return i;
+
+	return line;
 }
 
 /*
@@ -49,9 +70,9 @@ int search_delta(struct delta *fda, int max, char ch, int curr_state) {
 }
 
 int is_final(struct delta *fda, int max, int stato) {
-	for(int i = 0; i < max; i++) {
-		if (fda[i].from_state == stato) {
-			return d_final(&fda[i]);
+	for(int i = 0; i < num_final_states; i++) {
+		if (final_states[i] == stato) {
+			return 1;
 		}
 	}
 	return 0;
@@ -94,12 +115,10 @@ int main(int argc, char **argv) {
 	if (argc == 3) {
 		input = argv[2];
 		filename = argv[1];
-		printf("Input string: %s\nFile: %s\n", input, filename);
 		fda_desc = fopen(filename, "r");
 	}
 	else if (argc == 2) {
 		input = argv[1];
-		printf("Input from stdin\n");
 		fda_desc = stdin;
 	}
 	
