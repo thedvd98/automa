@@ -29,27 +29,27 @@ output(struct delta *d)
 }
 
 int
+range_match(struct delta *current_d, int curr_state, char start_ch, char end_ch)
+{
+	if(end_ch < start_ch){
+		//error
+		return -1;
+	}
+
+	for(;start_ch <= end_ch; start_ch++){
+		output(d_set(current_d, curr_state, start_ch, curr_state+1, STATE_NOFINAL));
+	}
+	return curr_state+1;
+}
+
+int
 create_automa(char *regex)
 {
 	int curr_state = 0;
 	struct delta current_d;
 
-	int i=0;
-	while(*regex != '\0') {
-		if(*(regex+1) == '\0') {
-			d_set(&current_d, curr_state, *regex, curr_state+1, STATE_NOFINAL);
-			output(&current_d);
-			d_set(&current_d, curr_state+1, *regex, curr_state+2, STATE_FINAL);
-			output(&current_d);
-		}
-		else {
-			d_set(&current_d, curr_state, *regex, curr_state+1, STATE_NOFINAL);
-			output(&current_d);
-		}
-		curr_state += 1;
-		regex++;
-	}
-
+	curr_state = range_match(&current_d, curr_state, 'A', 'E');
+	printf("%d %d\n", curr_state, -1);
 	return 0;
 }
 
