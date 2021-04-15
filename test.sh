@@ -1,6 +1,7 @@
 #!/bin/sh
 
 CMD=./automa 
+REG=./regexp
 echo TEST 1
 
 function esegui_test() {
@@ -31,3 +32,8 @@ YES=(a aaa aaaaa)
 NO=(b aa aaaa)
 FILE=adispari.txt
 esegui_test
+
+
+echo ========
+
+$REG no | awk '{a[NR]=$0} END{for(x=1;x<NR;x++){if(x==1)print a[NR];print a[x]}}' | $CMD A1
