@@ -28,17 +28,28 @@ output(struct delta *d)
 				d->finale);
 }
 
+/*
+ *  '[a-z]', '[1-3]'
+ */
 int
-range_match(struct delta *current_d, int curr_state, char start_ch, char end_ch)
+m_range(struct delta *current_d, int curr_state, char start_ch, char end_ch)
 {
-	if(end_ch < start_ch){
-		//error
+	if(end_ch < start_ch)
 		return -1;
-	}
 
-	for(;start_ch <= end_ch; start_ch++){
-		output(d_set(current_d, curr_state, start_ch, curr_state+1, STATE_NOFINAL));
-	}
+	for(;start_ch <= end_ch; start_ch++)
+		output(d_set(current_d, curr_state, start_ch, curr_state+1, S_PLACEBO));
+
+	return curr_state+1;
+}
+
+/*
+ * '.' match any char
+ */
+int
+m_everything(struct delta *current_d, int curr_state)
+{
+	output(d_set(current_d, curr_state, 'a', curr_state+1, S_EVERYTHING));
 	return curr_state+1;
 }
 
@@ -48,7 +59,9 @@ create_automa(char *regex)
 	int curr_state = 0;
 	struct delta current_d;
 
-	curr_state = range_match(&current_d, curr_state, 'A', 'E');
+	curr_state = m_range(&current_d, curr_state, 'A', 'E');
+	curr_state = m_everything(&current_d, curr_state);
+
 	printf("%d %d\n", curr_state, -1);
 	return 0;
 }
