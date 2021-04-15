@@ -56,11 +56,11 @@ int search_delta(struct delta *fda, int max, char ch, int curr_state) {
 		if (fda[i].from_state == curr_state && fda[i].letter == ch) {
 			return fda[i].to_state;
 		}
-		if (fda[i].from_state == curr_state && d_special(&fda[i]) == STATE_S_EVERYTHING) {
+		if (fda[i].from_state == curr_state && d_special(&fda[i]) == S_EVERYTHING) {
 			/*
 			 * Madonna che schifo di codice
 			 */
-			special = STATE_S_EVERYTHING;
+			special = S_EVERYTHING;
 			tmp_to_state = fda[i].to_state;
 		}
 	}

@@ -1,7 +1,5 @@
-#define STATE_FINAL -1
-#define STATE_NOFINAL 0
-#define STATE_PLACEBO 1 // serve a niente
-#define STATE_S_EVERYTHING 2
+#define S_PLACEBO 0
+#define S_EVERYTHING 1
 
 struct delta {
 	char letter; // la lettera per passare a next_state
@@ -17,9 +15,7 @@ struct delta {
 int
 d_special(struct delta *d)
 {
-	if(d->finale >= 0)
-		return d->finale;
-	return (-1)*(d->finale);
+	return d->finale;
 }
 	
 /*
